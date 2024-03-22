@@ -1,23 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import GridItem from "components/Grid/GridItem.js";
-import GridContainer from "components/Grid/GridContainer.js";
-import Card from "components/Card/Card.js";
-import CardHeader from "components/Card/CardHeader.js";
-import CardBody from "components/Card/CardBody.js";
 import config from "../../config.js";
-import BrandModal from "./BrandModal.js";
 import "./Brand.css";
 import CustomTable from "./CustomTable.js";
-import { Select, MenuItem, TextField, FormControlLabel, Checkbox, Box } from "@material-ui/core";
+import { Select, MenuItem, TextField, Box } from "@material-ui/core";
 import AddModal from "./AddModal.js";
 import Button from 'react-bootstrap/Button';
 
 const BrandMain = () => {
   const [vehicleData, setVehicleData] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [editedVehicle, setEditedVehicle] = useState(undefined);
-  const [removeSelected, setRemoveSelected] = useState(false);
   const [filterBrand, setFilterBrand] = useState('');
   const [filterYear, setFilterYear] = useState('');
 
@@ -39,7 +31,6 @@ const BrandMain = () => {
       .then((response) => {
         console.log(response.data);
         setVehicleData(response.data);
-        setRemoveSelected(false);
       });
   };
 

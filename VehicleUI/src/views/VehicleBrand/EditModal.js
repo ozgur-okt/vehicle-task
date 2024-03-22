@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Button, Checkbox, FormControlLabel } from '@material-ui/core';
-import { Check } from '@material-ui/icons';
 
 const EditModal = ({ open, onClose, vehicle, onUpdate }) => {
   const [updatedVehicle, setUpdatedVehicle] = useState(vehicle);
