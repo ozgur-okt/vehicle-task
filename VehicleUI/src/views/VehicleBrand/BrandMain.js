@@ -9,7 +9,7 @@ import config from "../../config.js";
 import BrandModal from "./BrandModal.js";
 import "./Brand.css";
 import CustomTable from "./CustomTable.js";
-import { Select, MenuItem, TextField, FormControlLabel, Checkbox } from "@material-ui/core";
+import { Select, MenuItem, TextField, FormControlLabel, Checkbox, Box } from "@material-ui/core";
 import AddModal from "./AddModal.js";
 import Button from 'react-bootstrap/Button';
 
@@ -71,20 +71,28 @@ const BrandMain = () => {
   };
 
   return (
-    <GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
-        <Select placeholder="Brand" value={filterBrand} onChange={e => setFilterBrand(e.target.value)} style={{ backgroundColor: "white", width: "300px", marginRight: "30px" }}>
+    <Box>
+      <Box 
+      display="flex" 
+      justifyContent="space-between" 
+      marginBottom="40px"
+      backgroundColor="white"
+      >
+        <Select placeholder="Brand" value={filterBrand} onChange={e => setFilterBrand(e.target.value)} style={{ width: "300px"}}>
           <MenuItem value=""><em>None</em></MenuItem>
           {Array.from(new Set(vehicleData.map(item => item.brand))).map((brand, i) => (
             <MenuItem key={i} value={brand}>{brand}</MenuItem>
           ))}
         </Select>
-        <TextField label="Year" value={filterYear} onChange={e => setFilterYear(e.target.value)} placeholder="Year" style={{ backgroundColor: "white", width: "300px" }} />
+        <Box >
+          <TextField label="Year" value={filterYear} variant="outlined" onChange={e => setFilterYear(e.target.value)}  />
+        </Box>
         <Button onClick={() => setShowModal(true)} variant="success">Add New Vehicle</Button>
-        {filteredData && (
+       
+      </Box>
+      {filteredData && (
           <CustomTable data={filteredData} columns={Object.keys(vehicleData[0] || {})} setVehicleData={setVehicleData} />
         )}
-      </GridItem>
       {showModal && (
         <AddModal
           open={showModal}
@@ -94,7 +102,7 @@ const BrandMain = () => {
           handleNewVehicleSubmit={handleNewVehicleSubmit}
         />
       )}
-    </GridContainer>
+    </Box>
   );
 };
 
