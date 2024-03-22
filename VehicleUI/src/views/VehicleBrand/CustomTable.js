@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TableSortLabel, TablePagination, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TableSortLabel, TablePagination, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -7,6 +7,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import axios from 'axios';
 import config from "../../config.js";
 import EditModal from './EditModal.js';
+import Button from 'react-bootstrap/Button';
 
 const CustomTable = ({ data, columns, setVehicleData }) => {
   const [sortConfig, setSortConfig] = useState(null);
@@ -124,7 +125,7 @@ const CustomTable = ({ data, columns, setVehicleData }) => {
                   }
                 </TableCell>
               ))}
-              <TableCell style={{ cursor:"pointer", display:"flex"}} align='center'>
+              <TableCell style={{ cursor:"pointer", display:"flex", justifyContent:"space-evenly"}} align='center'>
                 <DeleteIcon onClick={() => handleOpenDialog(item.id)} />
                 <EditIcon onClick={() => handleOpenEditModal(item)} />
               </TableCell>
@@ -143,10 +144,10 @@ const CustomTable = ({ data, columns, setVehicleData }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
+          <Button onClick={handleCloseDialog} variant="outline-primary">
             Cancel
           </Button>
-          <Button onClick={handleDelete} color="primary" autoFocus>
+          <Button onClick={handleDelete} variant="danger">
             Delete
           </Button>
         </DialogActions>

@@ -5,13 +5,13 @@ import GridContainer from "components/Grid/GridContainer.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import Button from "@material-ui/core/Button";
 import config from "../../config.js";
 import BrandModal from "./BrandModal.js";
 import "./Brand.css";
 import CustomTable from "./CustomTable.js";
 import { Select, MenuItem, TextField, FormControlLabel, Checkbox } from "@material-ui/core";
-import CustomModal from "./CustomModal.js";
+import AddModal from "./AddModal.js";
+import Button from 'react-bootstrap/Button';
 
 const BrandMain = () => {
   const [vehicleData, setVehicleData] = useState([]);
@@ -82,7 +82,7 @@ const BrandMain = () => {
               ))}
             </Select>
             <TextField variant="outlined" label="Year" value={filterYear} onChange={e => setFilterYear(e.target.value)} placeholder="Year" style={{ backgroundColor: "white", width: "300px" }} />
-            <Button onClick={() => setShowModal(true)}>Add New Vehicle</Button>
+            <Button onClick={() => setShowModal(true)} variant="success">Add New Vehicle</Button>
           </CardHeader>
           <CardBody>
             {filteredData && (
@@ -92,7 +92,7 @@ const BrandMain = () => {
         </Card>
       </GridItem>
       {showModal && (
-        <CustomModal
+        <AddModal
           open={showModal}
           handleClose={() => setShowModal(false)}
           newVehicle={newVehicle}
