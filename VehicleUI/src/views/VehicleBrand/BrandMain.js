@@ -73,23 +73,17 @@ const BrandMain = () => {
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="info">
-            <Select value={filterBrand} onChange={e => setFilterBrand(e.target.value)} style={{ backgroundColor: "white", width: "300px", marginRight: "30px" }}>
-              <MenuItem value=""><em>None</em></MenuItem>
-              {Array.from(new Set(vehicleData.map(item => item.brand))).map((brand, i) => (
-                <MenuItem key={i} value={brand}>{brand}</MenuItem>
-              ))}
-            </Select>
-            <TextField variant="outlined" label="Year" value={filterYear} onChange={e => setFilterYear(e.target.value)} placeholder="Year" style={{ backgroundColor: "white", width: "300px" }} />
-            <Button onClick={() => setShowModal(true)} variant="success">Add New Vehicle</Button>
-          </CardHeader>
-          <CardBody>
-            {filteredData && (
-              <CustomTable data={filteredData} columns={Object.keys(vehicleData[0] || {})} setVehicleData={setVehicleData} />
-            )}
-          </CardBody>
-        </Card>
+        <Select placeholder="Brand" value={filterBrand} onChange={e => setFilterBrand(e.target.value)} style={{ backgroundColor: "white", width: "300px", marginRight: "30px" }}>
+          <MenuItem value=""><em>None</em></MenuItem>
+          {Array.from(new Set(vehicleData.map(item => item.brand))).map((brand, i) => (
+            <MenuItem key={i} value={brand}>{brand}</MenuItem>
+          ))}
+        </Select>
+        <TextField label="Year" value={filterYear} onChange={e => setFilterYear(e.target.value)} placeholder="Year" style={{ backgroundColor: "white", width: "300px" }} />
+        <Button onClick={() => setShowModal(true)} variant="success">Add New Vehicle</Button>
+        {filteredData && (
+          <CustomTable data={filteredData} columns={Object.keys(vehicleData[0] || {})} setVehicleData={setVehicleData} />
+        )}
       </GridItem>
       {showModal && (
         <AddModal
