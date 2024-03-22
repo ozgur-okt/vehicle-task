@@ -12,12 +12,12 @@ import DeleteDialog from '../Modals/DeleteDialog.js';
 const CustomTable = ({ data, columns, setVehicleData }) => {
   const [sortConfig, setSortConfig] = useState(null);
   const [page, setPage] = useState(0);
-  const itemsPerPage = 5;
-  const filteredColumns = columns.filter(column => column !== 'id');
   const [openEditModal, setOpenEditModal] = useState(false);
   const [editVehicle, setEditVehicle] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
+  const itemsPerPage = 5;
+  const filteredColumns = columns.filter(column => column !== 'id');
 
   // Sorting Functions
 
