@@ -29,7 +29,7 @@ This is a vehicle management application with a Node.js backend and a React fron
 
 Clone the repository
 
-```git clone https://github.com/ozgur-okt/vehicle-task/tree/master ```
+```git clone https://github.com/ozgur-okt/vehicle-task ```
 
 
 Install dependencies for the backend
