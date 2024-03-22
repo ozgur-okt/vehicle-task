@@ -18,6 +18,7 @@ app.get('/api/vehicles/:id', (req, res) => {
 
 app.post('/api/vehicles', (req, res) => {
     const vehicle = {
+        id: (vehicles.length + 1).toString(), // this can be improved. such as using uuid
         nickname: req.body.nickname,
         brand: req.body.brand,
         model: req.body.model,
@@ -44,10 +45,10 @@ app.put('/api/vehicles/:id', (req, res) => {
 });
 
 app.delete('/api/vehicles/:id', (req, res) => {
-    const vehicle = vehicles.find(v => v.id === req.params.id);
-    if (!vehicle) return res.status(404).send('Vehicle not found');
+    const index = vehicles.findIndex(v => v.id === req.params.id);
+    if (index === -1) return res.status(404).send('Vehicle not found');
 
-    vehicle.isActive = false;
+    const vehicle = vehicles.splice(index, 1)[0];
     res.json(vehicle);
 });
 
