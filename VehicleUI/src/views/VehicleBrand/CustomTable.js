@@ -24,10 +24,10 @@ const CustomTable = ({ data, columns, setVehicleData }) => {
     if (sortConfig !== null) {
       data.sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
-          return sortConfig.direction === 'ascending' ? -1 : 1;
+          return sortConfig.direction === 'asc' ? -1 : 1;
         }
         if (a[sortConfig.key] > b[sortConfig.key]) {
-          return sortConfig.direction === 'ascending' ? 1 : -1;
+          return sortConfig.direction === 'asc' ? 1 : -1;
         }
         return 0;
       });
@@ -36,9 +36,9 @@ const CustomTable = ({ data, columns, setVehicleData }) => {
   }, [data, sortConfig]);
 
   const requestSort = (key) => {
-    let direction = 'ascending';
-    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
+    let direction = 'asc';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
     }
     setSortConfig({ key, direction });
   };
@@ -80,23 +80,33 @@ const CustomTable = ({ data, columns, setVehicleData }) => {
     handleCloseEditModal();
   };
 
+  const columnMapping = {
+    nickname: 'Nickname',
+    brand: 'Brand',
+    model: 'Model',
+    modelYear: 'Year',
+    plate: 'Plate',
+    color: 'Color',
+    isActive: 'Active'
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
             {filteredColumns.map((column, index) => (
-              <TableCell key={column} style={{ width: index === 0 ? '200px' : '100px', border: index === 0 ? '1px solid orange' : '1px solid blue' }}>
+              <TableCell key={column} align='center' style={{ width: index === 0 ? '300px' : '100px', border: index === 0 ? '1px solid orange' : '1px solid blue' }}>
                 <TableSortLabel
                   active={sortConfig?.key === column}
                   direction={sortConfig?.direction}
                   onClick={() => requestSort(column)}
                 >
-                  {column}
+                  {columnMapping[column]}
                 </TableSortLabel>
               </TableCell>
             ))}
-            <TableCell style={{ width: '100px', border: '1px solid blue' }}>
+            <TableCell align='center' style={{ border: '1px solid blue' }}>
               Actions
             </TableCell>
           </TableRow>
@@ -105,7 +115,7 @@ const CustomTable = ({ data, columns, setVehicleData }) => {
           {sortedData.slice(page * itemsPerPage, (page + 1) * itemsPerPage).map((item, index) => (
             <TableRow key={index}>
               {filteredColumns.map((column) => (
-                <TableCell key={column}>
+                <TableCell key={column} align='center'>
                   {column === 'isActive'
                     ? item[column]
                       ? <CheckCircleOutlineIcon style={{ color: 'green' }} />
@@ -114,7 +124,7 @@ const CustomTable = ({ data, columns, setVehicleData }) => {
                   }
                 </TableCell>
               ))}
-              <TableCell style={{ cursor:"pointer", display:"flex"}}>
+              <TableCell style={{ cursor:"pointer", display:"flex"}} align='center'>
                 <DeleteIcon onClick={() => handleOpenDialog(item.id)} />
                 <EditIcon onClick={() => handleOpenEditModal(item)} />
               </TableCell>

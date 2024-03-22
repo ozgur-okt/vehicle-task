@@ -81,7 +81,7 @@ const BrandMain = () => {
                 <MenuItem key={i} value={brand}>{brand}</MenuItem>
               ))}
             </Select>
-            <TextField value={filterYear} onChange={e => setFilterYear(e.target.value)} placeholder="Year" style={{ backgroundColor: "white", width: "300px" }} />
+            <TextField variant="outlined" label="Year" value={filterYear} onChange={e => setFilterYear(e.target.value)} placeholder="Year" style={{ backgroundColor: "white", width: "300px" }} />
             <Button onClick={() => setShowModal(true)}>Add New Vehicle</Button>
           </CardHeader>
           <CardBody>
