@@ -6,8 +6,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import axios from 'axios';
 import config from "../../config.js";
-import EditModal from './EditModal.js';
-import Button from 'react-bootstrap/Button';
+import EditModal from '../Modals/EditModal.js';
+import DeleteDialog from '../Modals/DeleteDialog.js';
 
 const CustomTable = ({ data, columns, setVehicleData }) => {
   const [sortConfig, setSortConfig] = useState(null);
@@ -16,10 +16,10 @@ const CustomTable = ({ data, columns, setVehicleData }) => {
   const filteredColumns = columns.filter(column => column !== 'id');
   const [openEditModal, setOpenEditModal] = useState(false);
   const [editVehicle, setEditVehicle] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
-  useEffect(() => {
-    setPage(0);
-  }, [data]);
+  // Sorting Functions
 
   const sortedData = React.useMemo(() => {
     if (sortConfig !== null) {
@@ -44,12 +44,17 @@ const CustomTable = ({ data, columns, setVehicleData }) => {
     setSortConfig({ key, direction });
   };
 
+  // Pagination Functions
+
+  useEffect(() => {
+    setPage(0);
+  }, [data]);
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
-  const [openDialog, setOpenDialog] = useState(false);
-  const [deleteId, setDeleteId] = useState(null);
+  // Delete Dialog Functions
 
   const handleOpenDialog = (id) => {
     setDeleteId(id);
@@ -66,6 +71,8 @@ const CustomTable = ({ data, columns, setVehicleData }) => {
     handleCloseDialog();
   };
 
+  //Edit Modal Functions
+
   const handleOpenEditModal = (vehicle) => {
     setEditVehicle(vehicle);
     setOpenEditModal(true);
@@ -80,6 +87,8 @@ const CustomTable = ({ data, columns, setVehicleData }) => {
     setVehicleData(data.map(item => item.id === updatedVehicle.id ? updatedVehicle : item));
     handleCloseEditModal();
   };
+
+  // Column Mapping
 
   const columnMapping = {
     nickname: 'Nickname',
@@ -97,7 +106,7 @@ const CustomTable = ({ data, columns, setVehicleData }) => {
         <TableHead>
           <TableRow>
             {filteredColumns.map((column, index) => (
-              <TableCell key={column} align='center' style={{ width: index === 0 ? '300px' : '100px', border: index === 0 ? '1px solid orange' : '1px solid blue' }}>
+              <TableCell key={column} align='center' style={{ width: index === 0 ? '300px' : '100px' }}>
                 <TableSortLabel
                   active={sortConfig?.key === column}
                   direction={sortConfig?.direction}
@@ -107,7 +116,7 @@ const CustomTable = ({ data, columns, setVehicleData }) => {
                 </TableSortLabel>
               </TableCell>
             ))}
-            <TableCell align='center' style={{ border: '1px solid blue' }}>
+            <TableCell align='center'>
               Actions
             </TableCell>
           </TableRow>
@@ -120,38 +129,24 @@ const CustomTable = ({ data, columns, setVehicleData }) => {
                   {column === 'isActive'
                     ? item[column]
                       ? <CheckCircleOutlineIcon style={{ color: 'green' }} />
-                      : <HighlightOffIcon style={{ color: 'tomato' }} />
+                      : <HighlightOffIcon style={{ color: 'red' }} />
                     : item[column]
                   }
                 </TableCell>
               ))}
-              <TableCell style={{ cursor:"pointer", display:"flex", justifyContent:"space-evenly"}} align='center'>
-                <DeleteIcon onClick={() => handleOpenDialog(item.id)} />
-                <EditIcon onClick={() => handleOpenEditModal(item)} />
+              <TableCell style={{ cursor: "pointer", display: "flex", justifyContent: "space-evenly" }} align='center'>
+                <DeleteIcon style={{color: "red"}} onClick={() => handleOpenDialog(item.id)} />
+                <EditIcon style={{color: "green"}} onClick={() => handleOpenEditModal(item)} />
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <Dialog
+      <DeleteDialog
         open={openDialog}
         onClose={handleCloseDialog}
-      >
-        <DialogTitle>{"Are you sure?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            This action will permanently delete this vehicle.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} variant="outline-primary">
-            Cancel
-          </Button>
-          <Button onClick={handleDelete} variant="danger">
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+        onDelete={handleDelete}
+      />
       <EditModal
         open={openEditModal}
         onClose={handleCloseEditModal}

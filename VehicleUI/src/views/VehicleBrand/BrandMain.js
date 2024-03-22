@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import config from "../../config.js";
 import "./Brand.css";
-import CustomTable from "./CustomTable.js";
-import { Select, MenuItem, TextField, Box } from "@material-ui/core";
-import AddModal from "./AddModal.js";
+import CustomTable from "../../components/Table/CustomTable.js";
+import { Select, MenuItem, TextField, Box, Typography } from "@material-ui/core";
+import AddModal from "../../components/Modals/AddModal.js";
 import Button from 'react-bootstrap/Button';
 
 const BrandMain = () => {
@@ -29,7 +29,6 @@ const BrandMain = () => {
       url: `${config.DefaultApiUrl}/vehicles`,
     })
       .then((response) => {
-        console.log(response.data);
         setVehicleData(response.data);
       });
   };
@@ -69,12 +68,14 @@ const BrandMain = () => {
       marginBottom="40px"
       backgroundColor="white"
       >
-        <Select placeholder="Brand" value={filterBrand} onChange={e => setFilterBrand(e.target.value)} style={{ width: "300px"}}>
-          <MenuItem value=""><em>None</em></MenuItem>
+        <Box>
+        <Typography>Filter brand:</Typography>
+        <Select value={filterBrand} onChange={e => setFilterBrand(e.target.value)} style={{ width: "300px"}}>
           {Array.from(new Set(vehicleData.map(item => item.brand))).map((brand, i) => (
             <MenuItem key={i} value={brand}>{brand}</MenuItem>
           ))}
         </Select>
+        </Box>
         <Box >
           <TextField label="Year" value={filterYear} variant="outlined" onChange={e => setFilterYear(e.target.value)}  />
         </Box>
