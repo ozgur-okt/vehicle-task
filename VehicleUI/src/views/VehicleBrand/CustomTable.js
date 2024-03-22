@@ -3,11 +3,11 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 
 const CustomTable = ({ data, columns }) => {
   const [sortConfig, setSortConfig] = useState(null);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [page, setPage] = useState(0);
   const itemsPerPage = 5;
 
   useEffect(() => {
-    setCurrentPage(0);
+    setPage(0);
   }, [data]);
 
   const sortedData = React.useMemo(() => {
@@ -34,19 +34,17 @@ const CustomTable = ({ data, columns }) => {
     setSortConfig({ key, direction });
   };
 
-  const [page, setPage] = useState(0);
-
-const handleChangePage = (event, newPage) => {
-  setPage(newPage);
-};
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
-            {columns.map((column) => (
-              <TableCell key={column}>
+            {columns.map((column, index) => (
+              <TableCell key={column} style={{ width: index === 0 ? '800px' : '100px', border: index === 0 ? '1px solid red' : '1px solid blue' }}>
                 <TableSortLabel
                   active={sortConfig?.key === column}
                   direction={sortConfig?.direction}
@@ -59,7 +57,7 @@ const handleChangePage = (event, newPage) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {sortedData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage).map((item, index) => (
+          {sortedData.slice(page * itemsPerPage, (page + 1) * itemsPerPage).map((item, index) => (
             <TableRow key={index}>
               {columns.map((column) => (
                 <TableCell key={column}>{item[column]}</TableCell>
@@ -68,18 +66,14 @@ const handleChangePage = (event, newPage) => {
           ))}
         </TableBody>
       </Table>
-      <div>
-        <Button variant="contained" color="primary" onClick={() => setCurrentPage((page) => Math.max(page - 1, 0))}>Previous Page</Button>
-        <Button variant="contained" color="primary" onClick={() => setCurrentPage((page) => Math.min(page + 1, Math.ceil(data.length / itemsPerPage) - 1))}>Next Page</Button>
-      </div>
       <TablePagination
-      rowsPerPageOptions={[itemsPerPage]}
-      component="div"
-      count={data.length}
-      rowsPerPage={itemsPerPage}
-      page={page}
-      onChangePage={handleChangePage}
-    />
+        rowsPerPageOptions={[itemsPerPage]}
+        component="div"
+        count={data.length}
+        rowsPerPage={itemsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+      />
     </TableContainer>
   );
 };
