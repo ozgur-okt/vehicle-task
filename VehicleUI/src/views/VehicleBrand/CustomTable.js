@@ -5,13 +5,14 @@ const CustomTable = ({ data, columns }) => {
   const [sortConfig, setSortConfig] = useState(null);
   const [page, setPage] = useState(0);
   const itemsPerPage = 5;
+  const filteredColumns = columns.filter(column => column !== 'isActive' && column !== 'id');
 
   useEffect(() => {
     setPage(0);
   }, [data]);
 
   const sortedData = React.useMemo(() => {
-    let sortableData = [...data];
+    let sortableData = [...data].filter(item => item.isActive);
     if (sortConfig !== null) {
       sortableData.sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
@@ -43,8 +44,8 @@ const CustomTable = ({ data, columns }) => {
       <Table>
         <TableHead>
           <TableRow>
-            {columns.map((column, index) => (
-              <TableCell key={column} style={{ width: index === 0 ? '800px' : '100px', border: index === 0 ? '1px solid red' : '1px solid blue' }}>
+            {filteredColumns.map((column, index) => (
+              <TableCell key={column} style={{ width: index === 0 ? '200px' : '100px', border: index === 0 ? '1px solid orange' : '1px solid blue' }}>
                 <TableSortLabel
                   active={sortConfig?.key === column}
                   direction={sortConfig?.direction}
@@ -59,7 +60,7 @@ const CustomTable = ({ data, columns }) => {
         <TableBody>
           {sortedData.slice(page * itemsPerPage, (page + 1) * itemsPerPage).map((item, index) => (
             <TableRow key={index}>
-              {columns.map((column) => (
+              {filteredColumns.map((column) => (
                 <TableCell key={column}>{item[column]}</TableCell>
               ))}
             </TableRow>

@@ -11,7 +11,7 @@ app.get('/api/vehicles', (req, res) => {
 });
 
 app.get('/api/vehicles/:id', (req, res) => {
-    const vehicle = vehicles.find(v => v.plate === req.params.id);
+    const vehicle = vehicles.find(v => v.id === req.params.id);
     if (!vehicle) return res.status(404).send('Vehicle not found');
     res.json(vehicle);
 });
@@ -24,14 +24,13 @@ app.post('/api/vehicles', (req, res) => {
         plate: req.body.plate,
         modelYear: req.body.modelYear,
         color: req.body.color,
-        isActive: req.body.isActive
     };
     vehicles.push(vehicle);
     res.status(201).json(vehicle);
 });
 
 app.put('/api/vehicles/:id', (req, res) => {
-    const vehicle = vehicles.find(v => v.plate === req.params.id);
+    const vehicle = vehicles.find(v => v.id === req.params.id);
     if (!vehicle) return res.status(404).send('Vehicle not found');
 
     vehicle.nickname = req.body.nickname;
@@ -40,18 +39,15 @@ app.put('/api/vehicles/:id', (req, res) => {
     vehicle.plate = req.body.plate;
     vehicle.modelYear = req.body.modelYear;
     vehicle.color = req.body.color;
-    vehicle.isActive = req.body.isActive;
 
     res.json(vehicle);
 });
 
 app.delete('/api/vehicles/:id', (req, res) => {
-    const vehicle = vehicles.find(v => v.plate === req.params.id);
+    const vehicle = vehicles.find(v => v.id === req.params.id);
     if (!vehicle) return res.status(404).send('Vehicle not found');
 
-    const index = vehicles.indexOf(vehicle);
-    vehicles.splice(index, 1);
-
+    vehicle.isActive = false;
     res.json(vehicle);
 });
 
